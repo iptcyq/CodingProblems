@@ -1,0 +1,72 @@
+filepath = "data5.txt"
+
+f = open(filepath, 'r')
+data = f.read()
+f.close()
+
+def partone(data):
+    conversions = data.split('\n\n')
+    source = []
+    destination = []
+
+    for seed in conversions[0].split(" ")[1:]: # store seeds
+        source.append(int(seed))
+
+    for conversion in conversions[1:]: # converts
+        # defines conversions
+        for instance in conversion.split("\n")[1:]:
+            dest, src, rng = instance.split(" ")
+            dest, src, rng = int(dest), int(src), int(rng)
+
+            removed = []
+            for seed in source:
+                if src <= seed < src + rng: # convert 
+                    destination.append(seed - src + dest)
+                    removed.append(seed)
+            for r in removed:
+                source.remove(r)
+
+        for j in source: 
+            destination.append(j)
+
+        source = destination 
+        destination = []
+    
+    print(source, min(source))
+
+def parttwo(data):
+    conversions = data.split('\n\n')
+    source = []
+    destination = []
+
+    start = 0
+    for i, seed in enumerate(conversions[0].split(" ")[1:]): # store seeds NOT DONE
+        if i%2 == 0: # start number
+            start = int(seed)
+        else:
+            source.append((start, i)) # stores tuple of start. range
+
+    for conversion in conversions[1:]: # converts 
+        # defines conversions
+        for instance in conversion.split("\n")[1:]:
+            dest, src, rng = instance.split(" ")
+            dest, src, rng = int(dest), int(src), int(rng)
+
+            removed = []
+            for seed in source:
+                if src <= seed < src + rng: # convert 
+                    destination.append(seed - src + dest)
+                    removed.append(seed)
+            for r in removed:
+                source.remove(r)
+
+        for j in source: 
+            destination.append(j)
+
+        source = destination 
+        destination = []
+    
+    print(source, min(source))
+
+# partone(data)
+parttwo(data)
